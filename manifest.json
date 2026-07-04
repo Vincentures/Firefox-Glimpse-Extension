@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Glimpse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Alt+click a link to preview it in a floating split-screen panel instead of leaving the page.",
 
   "browser_specific_settings": {
