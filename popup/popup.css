@@ -29,48 +29,42 @@ h1 {
   margin: 0;
 }
 
-.toggle-row {
+.setting-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-size: 13px;
   padding: 8px 0;
+}
+
+.segmented {
+  display: flex;
+  background: #2a2b32;
+  border-radius: 7px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.segmented button {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #a5a6ac;
+  font: inherit;
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.toggle-row input {
-  display: none;
+.segmented button:hover {
+  color: #e6e6e9;
 }
 
-.toggle-switch {
-  position: relative;
-  width: 34px;
-  height: 20px;
-  background: #3a3b42;
-  border-radius: 999px;
-  transition: background 0.15s ease;
-  flex-shrink: 0;
-}
-
-.toggle-switch::after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #c7c8cd;
-  transition: transform 0.15s ease, background 0.15s ease;
-}
-
-.toggle-row input:checked + .toggle-switch {
+.segmented button.active {
   background: #5a96ff;
-}
-
-.toggle-row input:checked + .toggle-switch::after {
-  transform: translateX(14px);
-  background: #fff;
+  color: #fff;
 }
 
 .hint {
@@ -102,6 +96,17 @@ h1 {
   align-items: center;
   gap: 8px;
   padding: 4px 0;
+}
+
+.legend kbd {
+  margin-left: auto;
+  background: #2a2b32;
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-size: 10px;
+  font-family: inherit;
+  color: #a5a6ac;
+  white-space: nowrap;
 }
 
 .legend-icon {

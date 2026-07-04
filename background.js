@@ -1,6 +1,6 @@
 // Glimpse previews are real popup windows (browser.windows.create type:"popup"),
 // not iframes. A popup window is a top-level browsing context, so
-// X-Frame-Options / CSP frame-ancestors never apply — every site renders.
+// X-Frame-Options / CSP frame-ancestors never apply - every site renders.
 // The slim popup chrome makes it look and feel like a floating panel.
 
 let previewWindowId = null;
@@ -189,7 +189,7 @@ async function openPreview(url, sender) {
     const w = await browser.windows.create({
       url,
       type: "popup",
-      titlePreface: "Glimpse — ",
+      titlePreface: "Glimpse - ",
       left: bounds.left,
       top: bounds.top,
       width: bounds.width,
@@ -280,7 +280,7 @@ browser.tabs.onUpdated.addListener((tabId, info) => {
   if (tabId === previewTabId && info.status === "complete") showControlsSoon();
 });
 
-// The preview belongs to the page it was opened from — if the user switches
+// The preview belongs to the page it was opened from - if the user switches
 // to a different tab in the origin window, close it instead of leaving an
 // orphaned popup floating behind the main window.
 browser.tabs.onActivated.addListener((activeInfo) => {
@@ -290,7 +290,7 @@ browser.tabs.onActivated.addListener((activeInfo) => {
   }
 });
 
-// Close the preview whenever focus moves anywhere outside it — the origin
+// Close the preview whenever focus moves anywhere outside it - the origin
 // window, another app, or the taskbar. Focus switches can fire a transient
 // WINDOW_ID_NONE before settling, so re-check after a short debounce instead
 // of acting on the first event.

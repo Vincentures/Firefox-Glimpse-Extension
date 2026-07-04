@@ -11,16 +11,25 @@
       <h1>Glimpse</h1>
     </header>
 
+    <div class="setting-row">
+      <span>Open preview with</span>
+      <div class="segmented" id="modifier-picker">
+        <button type="button" data-mod="alt">Alt</button>
+        <button type="button" data-mod="ctrl">Ctrl</button>
+        <button type="button" data-mod="shift">Shift</button>
+      </div>
+    </div>
+
     <p class="hint">
-      Hold <kbd>Alt</kbd> and click any link to open it in a floating preview
-      instead of leaving the page.
+      Hold <kbd id="hint-key">Alt</kbd> and click any link to open it in a
+      floating preview instead of leaving the page.
     </p>
 
     <ul class="legend">
-      <li><span class="legend-icon">←&nbsp;→</span> Go back / forward</li>
-      <li><span class="legend-icon">⧉</span> Copy the page link</li>
-      <li><span class="legend-icon">★</span> Bookmark the previewed page</li>
-      <li><span class="legend-icon">↗</span> Expand into a full tab</li>
+      <li><span class="legend-icon">←&nbsp;→</span> Go back / forward <kbd>Alt+←/→</kbd></li>
+      <li><span class="legend-icon">⧉</span> Copy the page link <kbd>Ctrl+Shift+L</kbd></li>
+      <li><span class="legend-icon">★</span> Bookmark the page <kbd>Ctrl+D</kbd></li>
+      <li><span class="legend-icon">↗</span> Expand into a full tab <kbd>Ctrl+Shift+Enter</kbd></li>
       <li><span class="legend-icon">Esc</span> Close the preview</li>
     </ul>
 

@@ -145,6 +145,17 @@
     }
   `;
 
+  const MODIFIER_PROPS = { alt: "altKey", ctrl: "ctrlKey", shift: "shiftKey" };
+  let modifier = "alt";
+  browser.storage.local.get({ glimpseModifier: "alt" }).then((res) => {
+    modifier = res.glimpseModifier;
+  });
+  browser.storage.onChanged.addListener((changes, area) => {
+    if (area === "local" && changes.glimpseModifier) {
+      modifier = changes.glimpseModifier.newValue;
+    }
+  });
+
   let isPreview = false; // set once the background tells us we're the preview tab
   let overlayEl = null; // dim layer shown on the origin page while a preview is open
   let overlayArmAt = 0; // ignore the mouseup/click that opened the preview
@@ -169,7 +180,7 @@
   document.addEventListener(
     "click",
     (event) => {
-      if (!event.altKey || event.button !== 0) return;
+      if (!event[MODIFIER_PROPS[modifier]] || event.button !== 0) return;
 
       const anchor = event.target.closest && event.target.closest("a[href]");
       if (!isPreviewableLink(anchor)) return;
@@ -186,6 +197,32 @@
           availHeight: window.screen.availHeight,
         },
       });
+    },
+    true
+  );
+
+  // Shortcuts inside the preview. Ctrl+D matches Firefox's own bookmark
+  // shortcut (intercepted so it opens the Glimpse dialog instead of the
+  // browser's star panel); Alt+←/→ for back/forward already work natively
+  // because the preview is a real popup window.
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (!isPreview) return;
+      const key = event.key.toLowerCase();
+      if (event.ctrlKey && !event.shiftKey && !event.altKey && key === "d") {
+        event.preventDefault();
+        event.stopPropagation();
+        onBookmarkClick();
+      } else if (event.ctrlKey && event.shiftKey && !event.altKey && key === "l") {
+        event.preventDefault();
+        event.stopPropagation();
+        onCopyClick();
+      } else if (event.ctrlKey && event.shiftKey && !event.altKey && event.key === "Enter") {
+        event.preventDefault();
+        event.stopPropagation();
+        browser.runtime.sendMessage({ type: "glimpse:promote" });
+      }
     },
     true
   );
@@ -280,9 +317,9 @@
     const forwardBtn = makeButton("glimpse-btn-forward", ICONS.forward, "Go forward", () => history.forward());
     const gap = document.createElement("div");
     gap.className = "glimpse-bar-gap";
-    copyBtn = makeButton("glimpse-btn-copy", ICONS.copy, "Copy link", onCopyClick);
-    bookmarkBtn = makeButton("glimpse-btn-bookmark", ICONS.bookmark, "Bookmark this page", onBookmarkClick);
-    const expandBtn = makeButton("glimpse-btn-expand", ICONS.expand, "Open in new tab", () =>
+    copyBtn = makeButton("glimpse-btn-copy", ICONS.copy, "Copy link (Ctrl+Shift+L)", onCopyClick);
+    bookmarkBtn = makeButton("glimpse-btn-bookmark", ICONS.bookmark, "Bookmark this page (Ctrl+D)", onBookmarkClick);
+    const expandBtn = makeButton("glimpse-btn-expand", ICONS.expand, "Open in new tab (Ctrl+Shift+Enter)", () =>
       browser.runtime.sendMessage({ type: "glimpse:promote" })
     );
 
